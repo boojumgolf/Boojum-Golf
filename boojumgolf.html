@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BGA Tour — Boojum Golf Association</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #F5F0E8;
+    --dark-green: #1A3A2A;
+    --forest: #2C5234;
+    --gold: #B8933A;
+    --light-gold: #D4AF6A;
+    --warm-brown: #6B4423;
+    --parchment: #EDE5D0;
+    --text-dark: #1C1C1C;
+    --text-mid: #4A4033;
+    --text-light: #7A6E5F;
+    --border: rgba(90,70,40,0.2);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'EB Garamond', Georgia, serif; background: var(--cream); color: var(--text-dark); font-size: 17px; line-height: 1.75; }
+
+  /* NAV */
+  nav { background: var(--dark-green); border-bottom: 3px solid var(--gold); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; }
+  .nav-brand { padding: 0.7rem 0; cursor: pointer; }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--light-gold); font-style: italic; line-height: 1.1; }
+  .nav-sub { font-size: 0.6rem; color: rgba(255,255,255,0.38); letter-spacing: 0.2em; text-transform: uppercase; }
+  .nav-links { display: flex; flex-wrap: wrap; }
+  .nav-links a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 0.86rem; letter-spacing: 0.09em; text-transform: uppercase; padding: 1.35rem 0.9rem; display: block; transition: color 0.2s, border-bottom-color 0.2s; border-bottom: 3px solid transparent; margin-bottom: -3px; cursor: pointer; }
+  .nav-links a:hover { color: var(--light-gold); border-bottom-color: var(--light-gold); }
+
+  /* HERO */
+  .hero { background: var(--dark-green); color: white; padding: 6rem 2rem 5.5rem; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.018) 60px), repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.018) 60px); }
+  .hero-inner { position: relative; z-index: 1; }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 0.8rem; border: 1px solid rgba(184,147,58,0.45); color: var(--light-gold); font-size: 0.69rem; letter-spacing: 0.22em; text-transform: uppercase; padding: 0.4rem 1.5rem; border-radius: 2px; margin-bottom: 2rem; }
+  .hero-eyebrow::before, .hero-eyebrow::after { content: '◆'; font-size: 0.35rem; opacity: 0.7; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3.5rem, 9vw, 7rem); font-weight: 700; line-height: 0.92; color: white; }
+  .hero h1 .gold-line { display: block; font-style: italic; color: var(--light-gold); font-size: 0.58em; letter-spacing: 0.06em; margin-top: 0.35rem; }
+  .hero-tagline { font-size: 1.2rem; color: rgba(255,255,255,0.55); margin: 2rem auto 0.5rem; max-width: 500px; font-style: italic; }
+  .hero-domain { font-size: 0.77rem; color: rgba(255,255,255,0.25); letter-spacing: 0.12em; margin-bottom: 2.8rem; }
+  .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  .btn-primary { background: var(--gold); color: var(--dark-green); font-family: 'EB Garamond', serif; font-size: 1rem; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; border: none; padding: 0.9rem 2.4rem; cursor: pointer; border-radius: 2px; transition: background 0.2s, transform 0.15s; }
+  .btn-primary:hover { background: var(--light-gold); transform: translateY(-2px); }
+  .btn-outline { background: transparent; color: white; font-family: 'EB Garamond', serif; font-size: 1rem; letter-spacing: 0.09em; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.32); padding: 0.9rem 2.4rem; cursor: pointer; border-radius: 2px; transition: border-color 0.2s, background 0.2s; }
+  .btn-outline:hover { border-color: white; background: rgba(255,255,255,0.07); }
+
+  /* SECTIONS */
+  section { padding: 5rem 1.5rem; }
+  .section-inner { max-width: 980px; margin: 0 auto; }
+  .section-header { text-align: center; margin-bottom: 3rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 2.1rem; font-weight: 700; color: var(--dark-green); line-height: 1.15; }
+  .section-title em { color: var(--gold); font-style: italic; }
+  .section-sub { color: var(--text-light); font-style: italic; margin-top: 0.5rem; font-size: 1.05rem; }
+  .rule { width: 56px; height: 2px; background: var(--gold); margin: 0.8rem auto 0; opacity: 0.5; }
+
+  /* FOUNDERS */
+  .founders-section { background: var(--dark-green); }
+  .founders-story { color: rgba(255,255,255,0.68); max-width: 620px; margin: 0 auto 3rem; text-align: center; font-style: italic; font-size: 1.1rem; line-height: 1.9; }
+  .founders-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1.25rem; max-width: 860px; margin: 0 auto; }
+  .founder-card { background: rgba(255,255,255,0.055); border: 1px solid rgba(212,175,106,0.2); border-radius: 4px; padding: 1.75rem 1.25rem; text-align: center; transition: background 0.2s, border-color 0.2s, transform 0.2s; }
+  .founder-card:hover { background: rgba(255,255,255,0.1); border-color: rgba(212,175,106,0.5); transform: translateY(-3px); }
+  .founder-monogram { width: 58px; height: 58px; border-radius: 50%; background: var(--gold); color: var(--dark-green); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; margin: 0 auto 1rem; }
+  .founder-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: white; }
+  .founder-tag { font-size: 0.7rem; color: var(--gold); letter-spacing: 0.14em; text-transform: uppercase; margin-top: 0.3rem; }
+
+  /* EVENT BANNER */
+  .event-banner { background: var(--forest); border: 2px solid var(--gold); border-radius: 4px; padding: 3rem 2.5rem; text-align: center; position: relative; overflow: hidden; margin-bottom: 3rem; }
+  .event-banner::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(184,147,58,0.03) 20px, rgba(184,147,58,0.03) 21px); }
+  .event-banner-inner { position: relative; z-index: 1; }
+  .event-label { font-size: 0.69rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+  .event-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; color: white; font-style: italic; line-height: 1.05; margin-bottom: 1.5rem; }
+  .event-details { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; margin-bottom: 2.25rem; }
+  .event-detail { color: rgba(255,255,255,0.72); font-size: 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.1rem; }
+  .event-detail strong { color: var(--light-gold); font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500; display: block; margin-bottom: 0.15rem; }
+
+  /* RSVP */
+  .rsvp-section { background: var(--parchment); }
+  .invitation-letter { background: white; border: 1px solid var(--border); border-left: 4px solid var(--gold); border-radius: 4px; padding: 2.25rem 2.5rem; max-width: 700px; margin: 0 auto 2.5rem; font-size: 1rem; line-height: 1.85; color: var(--text-mid); }
+  .invitation-letter h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--dark-green); margin-bottom: 1rem; }
+  .invitation-letter p { margin-bottom: 1rem; }
+  .invitation-letter strong { color: var(--dark-green); }
+  .invitation-letter a { color: var(--forest); }
+  .expenditures { background: var(--cream); border-radius: 4px; padding: 1rem 1.25rem; margin: 1rem 0; font-size: 0.95rem; }
+  .rsvp-form-wrap { background: white; border: 1px solid var(--border); border-radius: 4px; padding: 2.25rem; max-width: 560px; margin: 0 auto; }
+  .rsvp-form-wrap h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--dark-green); margin-bottom: 0.25rem; }
+  .form-intro { font-size: 0.9rem; color: var(--text-light); font-style: italic; margin-bottom: 1.75rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 1.25rem; }
+  .form-group label { font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-light); }
+  .form-group input, .form-group select, .form-group textarea { font-family: 'EB Garamond', serif; font-size: 1rem; border: 1px solid var(--border); border-radius: 2px; padding: 0.65rem 0.85rem; background: var(--cream); color: var(--text-dark); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--forest); box-shadow: 0 0 0 3px rgba(44,82,52,0.08); }
+  .rsvp-options { display: flex; gap: 1rem; }
+  .rsvp-option { flex: 1; border: 1.5px solid var(--border); border-radius: 4px; padding: 1.1rem; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; font-size: 0.95rem; color: var(--text-mid); }
+  .rsvp-option .opt-icon { font-size: 1.6rem; display: block; margin-bottom: 0.3rem; }
+  .rsvp-option:hover { border-color: var(--forest); background: rgba(44,82,52,0.04); }
+  .rsvp-option.selected-yes { border-color: var(--forest); background: rgba(44,82,52,0.08); color: var(--forest); font-weight: 500; }
+  .rsvp-option.selected-no { border-color: var(--warm-brown); background: rgba(107,68,35,0.06); color: var(--warm-brown); }
+  .form-required { font-size: 0.78rem; color: var(--text-light); font-style: italic; margin: 0.5rem 0 1.25rem; }
+  .btn-submit { background: var(--dark-green); color: white; font-family: 'EB Garamond', serif; font-size: 1.05rem; letter-spacing: 0.09em; text-transform: uppercase; border: none; padding: 0.95rem 2rem; cursor: pointer; border-radius: 2px; width: 100%; transition: background 0.2s; }
+  .btn-submit:hover { background: var(--forest); }
+  .btn-submit:disabled { background: var(--text-light); cursor: not-allowed; }
+  .success-msg { display: none; background: #EAF3DE; border: 1px solid #3B6D11; color: #27500A; padding: 1.25rem 1.5rem; border-radius: 4px; text-align: center; margin-top: 1rem; font-style: italic; font-size: 1.05rem; }
+
+  /* LEADERBOARD */
+  .lb-section { background: var(--dark-green); }
+  .leaderboard { background: rgba(255,255,255,0.055); border: 1px solid rgba(255,255,255,0.09); border-radius: 4px; overflow: hidden; max-width: 700px; margin: 0 auto; }
+  .lb-event-label { background: rgba(184,147,58,0.14); border-bottom: 1px solid rgba(184,147,58,0.28); padding: 0.75rem 1.5rem; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); text-align: center; }
+  .lb-head { display: grid; grid-template-columns: 3rem 1fr 6rem 6rem 6rem; padding: 0.65rem 1.5rem; font-size: 0.69rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.36); border-bottom: 1px solid rgba(255,255,255,0.07); gap: 0.5rem; }
+  .lb-row { display: grid; grid-template-columns: 3rem 1fr 6rem 6rem 6rem; padding: 0.9rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.055); align-items: center; gap: 0.5rem; transition: background 0.15s; }
+  .lb-row:last-child { border-bottom: none; }
+  .lb-row:hover { background: rgba(255,255,255,0.04); }
+  .lb-rank { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: rgba(255,255,255,0.22); text-align: center; }
+  .lb-rank.gold { color: var(--gold); }
+  .lb-rank.silver { color: #C0C0C0; }
+  .lb-rank.bronze { color: #CD7F32; }
+  .lb-name { font-size: 1rem; color: white; }
+  .lb-winner-badge { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); background: rgba(184,147,58,0.15); padding: 0.15rem 0.5rem; border-radius: 2px; margin-left: 0.5rem; border: 1px solid rgba(184,147,58,0.3); vertical-align: middle; }
+  .lb-stat { text-align: right; font-size: 0.95rem; color: rgba(255,255,255,0.62); }
+  .lb-score { text-align: right; font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--light-gold); }
+
+  /* GALLERY */
+  .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: 200px 180px; gap: 8px; border-radius: 4px; overflow: hidden; }
+  .gallery-item { background: var(--forest); display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; transition: filter 0.2s; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gallery-item:hover { filter: brightness(1.08); }
+  .gallery-item:first-child { grid-column: span 2; grid-row: span 2; }
+  .gallery-item:nth-child(4) { grid-column: span 2; }
+  .gallery-placeholder { display: flex; flex-direction: column; align-items: center; gap: 6px; color: rgba(255,255,255,0.22); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; text-align: center; padding: 1rem; }
+  .gallery-note { text-align: center; margin-top: 1.25rem; font-size: 0.88rem; color: var(--text-light); font-style: italic; }
+
+  /* FOOTER */
+  footer { background: var(--text-dark); color: rgba(255,255,255,0.4); text-align: center; padding: 3rem 1.5rem; font-size: 0.9rem; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-style: italic; color: var(--light-gold); font-size: 1.6rem; margin-bottom: 0.2rem; }
+  .footer-sub { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 1rem; color: rgba(255,255,255,0.22); }
+  footer a { color: rgba(255,255,255,0.38); text-decoration: none; cursor: pointer; }
+  footer a:hover { color: var(--light-gold); }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--dark-green); color: white; border: 1px solid var(--gold); padding: 0.85rem 1.5rem; border-radius: 4px; font-style: italic; opacity: 0; transform: translateY(10px); transition: opacity 0.3s, transform 0.3s; z-index: 999; pointer-events: none; max-width: 320px; }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ─── INVITATIONAL PAGE ─── */
+  #inv-page { display: none; }
+  .password-gate { min-height: 65vh; display: flex; align-items: center; justify-content: center; padding: 4rem 1.5rem; background: var(--cream); }
+  .password-box { background: white; border: 1px solid var(--border); border-top: 4px solid var(--gold); border-radius: 4px; padding: 3rem 2.5rem; text-align: center; max-width: 420px; width: 100%; }
+  .password-box h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--dark-green); margin-bottom: 0.5rem; font-style: italic; }
+  .password-box p { color: var(--text-light); font-size: 0.95rem; margin-bottom: 1.75rem; line-height: 1.6; }
+  .password-box input { font-family: 'EB Garamond', serif; font-size: 1.2rem; border: 1px solid var(--border); border-radius: 2px; padding: 0.7rem 1rem; width: 100%; text-align: center; letter-spacing: 0.25em; background: var(--cream); outline: none; margin-bottom: 1rem; transition: border-color 0.2s; }
+  .password-box input:focus { border-color: var(--forest); }
+  .password-box .btn-primary { width: 100%; }
+  .password-error { color: #993C1D; font-size: 0.9rem; font-style: italic; margin-top: 0.75rem; display: none; }
+  .inv-content { display: none; }
+  .inv-content.unlocked { display: block; }
+  .inv-hero { background: var(--dark-green); padding: 5rem 2rem 4.5rem; text-align: center; position: relative; overflow: hidden; }
+  .inv-hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(184,147,58,0.03) 30px, rgba(184,147,58,0.03) 31px); }
+  .inv-hero-inner { position: relative; z-index: 1; }
+  .inv-badge { display: inline-block; border: 1px solid rgba(184,147,58,0.45); color: var(--gold); font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; padding: 0.38rem 1.3rem; margin-bottom: 1.5rem; }
+  .inv-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 5rem); color: white; font-style: italic; line-height: 1; margin-bottom: 0.5rem; }
+  .inv-subtitle { font-size: 0.82rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.38); margin-bottom: 1.25rem; }
+  .inv-year-watermark { font-family: 'Playfair Display', serif; font-size: 5rem; color: rgba(212,175,106,0.12); position: absolute; bottom: 0.5rem; right: 2.5rem; line-height: 1; font-style: italic; pointer-events: none; }
+  .winner-podium { background: rgba(255,255,255,0.06); border: 2px solid var(--gold); border-radius: 4px; padding: 3rem 2rem; text-align: center; max-width: 500px; margin: 0 auto 3rem; }
+  .podium-trophy { font-size: 3.5rem; margin-bottom: 0.75rem; }
+  .podium-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+  .podium-name { font-family: 'Playfair Display', serif; font-size: 2.75rem; color: white; font-style: italic; line-height: 1.05; }
+  .podium-year { font-size: 0.85rem; color: rgba(255,255,255,0.38); margin-top: 0.35rem; }
+
+  @media (max-width: 640px) {
+    nav { padding: 0 1rem; }
+    .nav-links a { padding: 1rem 0.55rem; font-size: 0.76rem; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .gallery-item:first-child { grid-column: span 2; height: 220px; }
+    .gallery-item:nth-child(4) { grid-column: span 1; }
+    .lb-head, .lb-row { grid-template-columns: 2.5rem 1fr 5rem 5rem; }
+    .lb-head span:nth-child(4), .lb-stat:nth-child(4) { display: none; }
+    .event-details { gap: 1.25rem; }
+    .invitation-letter { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════ NAV ════════════════════════════════ -->
+<nav>
+  <div class="nav-brand" onclick="gotoHome()">
+    <div class="nav-logo">BGA Tour</div>
+    <div class="nav-sub">Boojum Golf Association</div>
+  </div>
+  <div class="nav-links">
+    <a onclick="gotoHome(); smoothTo('about')">About</a>
+    <a onclick="gotoHome(); smoothTo('events')">Events</a>
+    <a onclick="gotoHome(); smoothTo('rsvp')">RSVP</a>
+    <a onclick="gotoHome(); smoothTo('standings')">Standings</a>
+    <a onclick="gotoHome(); smoothTo('gallery')">Gallery</a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════ MAIN SITE ════════════════════════════ -->
+<div id="main-page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Est. Among Friends &nbsp;·&nbsp; Camp Henry, NC</div>
+      <h1>BGA Tour<span class="gold-line">Boojum Golf Association</span></h1>
+      <p class="hero-tagline">A brotherhood of the fairway. Forged at Camp Henry, bonded by the game.</p>
+      <p class="hero-domain">boojumgolf.com</p>
+      <div class="hero-ctas">
+        <button class="btn-primary" onclick="smoothTo('rsvp')">RSVP — The Boojum Open</button>
+        <button class="btn-outline" onclick="smoothTo('events')">View Schedule</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT / FOUNDERS -->
+  <section id="about" style="background: var(--dark-green);">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title" style="color: var(--light-gold);">The Founding Four</h2>
+        <p class="section-sub" style="color: rgba(255,255,255,0.45);">Where it all began.</p>
+        <div class="rule"></div>
+      </div>
+      <p class="founders-story">
+        What started at <strong style="color: var(--light-gold);">Camp Henry</strong> as a shared love of the game has grown into something far greater — a tradition of camaraderie, competition, and the occasional miraculous par. The Boojum Golf Association was founded by four friends who understood that the best rounds are never measured in strokes alone.
+      </p>
+      <div class="founders-grid">
+        <div class="founder-card">
+          <div class="founder-monogram">AR</div>
+          <div class="founder-name">Austin Rios</div>
+          <div class="founder-tag">Founding Member</div>
+        </div>
+        <div class="founder-card">
+          <div class="founder-monogram">JG</div>
+          <div class="founder-name">Jared Grant</div>
+          <div class="founder-tag">Founding Member</div>
+        </div>
+        <div class="founder-card">
+          <div class="founder-monogram">KC</div>
+          <div class="founder-name">Kevin Caskey</div>
+          <div class="founder-tag">Founding Member</div>
+        </div>
+        <div class="founder-card">
+          <div class="founder-monogram">WB</div>
+          <div class="founder-name">Will Bryant</div>
+          <div class="founder-tag">Founding Member</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section id="events">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Upcoming <em>Events</em></h2>
+        <p class="section-sub">Mark your calendar — tee times wait for no one.</p>
+        <div class="rule"></div>
+      </div>
+      <div class="event-banner">
+        <div class="event-banner-inner">
+          <div class="event-label">◆ &nbsp; Inaugural Tournament · 2026 &nbsp; ◆</div>
+          <div class="event-title">The Boojum Open</div>
+          <div class="event-details">
+            <div class="event-detail"><strong>Weekend</strong>July 12–14, 2026</div>
+            <div class="event-detail"><strong>Championship Day</strong>Monday, July 13th</div>
+            <div class="event-detail"><strong>Course</strong>Springdale Golf Course</div>
+            <div class="event-detail"><strong>Location</strong>Canton, NC</div>
+          </div>
+          <button class="btn-primary" onclick="smoothTo('rsvp')">Confirm Your Spot — RSVP Below</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section id="rsvp" class="rsvp-section">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">RSVP — <em>The Boojum Open</em></h2>
+        <p class="section-sub">Confirm your place in history.</p>
+        <div class="rule"></div>
+      </div>
+
+      <div class="invitation-letter">
+        <h3>A Most Coveted Invitation</h3>
+        <p>It is with great pleasure that we extend this highly coveted invitation to join us on <strong>Monday, July 13th, 2026</strong>, at the storied <strong><a href="http://www.springdalegolfnc.com" target="_blank">Springdale Golf Course</a></strong> — 200 Golfwatch Rd, Canton, NC 28716 — for the inaugural playing of what we fully intend to become a lasting and distinguished tradition.</p>
+        <p>While the championship itself will be contested with appropriate seriousness, The Boojum Open has always been conceived as something greater than a tournament. It is a celebration of enduring friendship. Ours is a fellowship built over years of shared experience, shared stories, and shared rounds. Golf may provide the framework for the day, but camaraderie gives it meaning.</p>
+        <p>The laughter between shots, the conversations on the tee box, and the gathering after the final putt are every bit as important as what appears on the scorecard. This first chapter sets the tone for many to come.</p>
+        <div class="expenditures">
+          <strong>Expected Expenditures:</strong> Participants should anticipate covering greens fees (~$100), as well as lunch and beverages throughout the day's festivities. Final figures will be confirmed as we approach July. Additionally, should there be sufficient interest, we will explore coordinating group lodging — Airbnb, hotels, or camping — so that the fellowship may continue well beyond the 18th green and properly christen the beginning of this tradition.
+        </div>
+        <p>Kindly confirm your attendance at your earliest convenience. <strong>Founding participants will forever hold a special distinction in the history of The Boojum Open.</strong></p>
+      </div>
+
+      <div class="rsvp-form-wrap">
+        <h3>Confirm Your Attendance</h3>
+        <p class="form-intro">Fields marked * are required.</p>
+
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="rsvp-email" placeholder="your@email.com"/>
+        </div>
+
+        <div class="form-group">
+          <label>Do you accept this invitation? *</label>
+          <div class="rsvp-options">
+            <div class="rsvp-option" id="opt-yes" onclick="selectRsvp('yes')">
+              <span class="opt-icon">⛳</span>
+              Yes, I'll be there
+            </div>
+            <div class="rsvp-option" id="opt-no" onclick="selectRsvp('no')">
+              <span class="opt-icon">😔</span>
+              Sorry, can't make it
+            </div>
+          </div>
+        </div>
+
+        <p class="form-required">* Required &nbsp;·&nbsp; Never submit passwords through this form.</p>
+        <button class="btn-submit" id="rsvp-btn" onclick="submitRsvp()">Submit RSVP</button>
+        <div class="success-msg" id="rsvp-success">
+          Your RSVP has been received — we'll be in touch with details as July approaches. See you on the first tee! ⛳
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STANDINGS -->
+  <section id="standings" class="lb-section">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title" style="color: var(--light-gold);">BGA Tour <em style="color: var(--gold);">Standings</em></h2>
+        <p class="section-sub" style="color: rgba(255,255,255,0.45);">Season records &amp; historical results.</p>
+        <div class="rule"></div>
+      </div>
+      <div class="leaderboard">
+        <div class="lb-event-label">◆ &nbsp; 2026 Season — Boojum Open &nbsp; ◆</div>
+        <div class="lb-head">
+          <span style="text-align:center">#</span>
+          <span>Player</span>
+          <span style="text-align:right">Events</span>
+          <span style="text-align:right">Avg</span>
+          <span style="text-align:right">Points</span>
+        </div>
+        <div class="lb-row"><div class="lb-rank gold">1</div><div class="lb-name">Austin Rios</div><div class="lb-stat">—</div><div class="lb-stat">—</div><div class="lb-score">TBD</div></div>
+        <div class="lb-row"><div class="lb-rank silver">2</div><div class="lb-name">Jared Grant</div><div class="lb-stat">—</div><div class="lb-stat">—</div><div class="lb-score">TBD</div></div>
+        <div class="lb-row"><div class="lb-rank bronze">3</div><div class="lb-name">Kevin Caskey</div><div class="lb-stat">—</div><div class="lb-stat">—</div><div class="lb-score">TBD</div></div>
+        <div class="lb-row"><div class="lb-rank">4</div><div class="lb-name">Will Bryant</div><div class="lb-stat">—</div><div class="lb-stat">—</div><div class="lb-score">TBD</div></div>
+      </div>
+      <p style="text-align:center; margin-top:1.25rem; font-size:0.87rem; color:rgba(255,255,255,0.3); font-style:italic;">Standings updated after the Boojum Open — July 2026.</p>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Photo <em>Gallery</em></h2>
+        <p class="section-sub">Memories from the fairway.</p>
+        <div class="rule"></div>
+      </div>
+      <div class="gallery-grid">
+        <!--
+          TO ADD YOUR OWN PHOTOS:
+          1. Create a "photos" folder next to index.html in your GitHub repo
+          2. Upload your image files there
+          3. Replace each gallery-item's inner div with:
+             <img src="photos/your-photo.jpg" alt="caption">
+        -->
+        <div class="gallery-item">
+          <div class="gallery-placeholder">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>Featured Photo</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-placeholder">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>Camp Henry</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-placeholder">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>On the Course</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-placeholder">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>19th Hole</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <div class="gallery-placeholder">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>The Crew</span>
+          </div>
+        </div>
+      </div>
+      <p class="gallery-note">Photos from past outings. Add images by uploading to a <code>photos/</code> folder in your repo and updating the gallery HTML.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">BGA Tour</div>
+    <div class="footer-sub">Boojum Golf Association</div>
+    <p>Est. Among Friends &nbsp;·&nbsp; Camp Henry &nbsp;·&nbsp; <a href="http://www.boojumgolf.com">boojumgolf.com</a></p>
+    <p style="margin-top:1.5rem; font-size:0.75rem; opacity:0.4;">
+      Invitational access: <a onclick="openInvitational()" style="color:rgba(255,255,255,0.25);">members only</a>
+    </p>
+  </footer>
+
+</div><!-- end #main-page -->
+
+
+<!-- ════════════════════ HIDDEN INVITATIONAL PAGE ════════════════════ -->
+<!--
+  ACCESS: Navigate to  ?page=invitational  in the URL
+  e.g.  https://www.boojumgolf.com/?page=invitational
+  Password is set in the JS below — change INVITATIONAL_PASSWORD to whatever you want.
+-->
+<div id="inv-page">
+
+  <div class="password-gate" id="pw-gate">
+    <div class="password-box">
+      <h2>The Boojum Invitational</h2>
+      <p>This page is reserved for a select few.<br/>Enter the password to continue.</p>
+      <input type="password" id="pw-input" placeholder="· · · · · · · ·" onkeydown="if(event.key==='Enter') checkPw()"/>
+      <button class="btn-primary" onclick="checkPw()">Enter</button>
+      <p class="password-error" id="pw-error">Incorrect password. Please try again.</p>
+    </div>
+  </div>
+
+  <div class="inv-content" id="inv-content">
+
+    <nav style="background: var(--dark-green); border-bottom: 3px solid var(--gold); padding: 0 2rem; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:200;">
+      <div class="nav-brand" onclick="gotoHome()">
+        <div class="nav-logo">BGA Tour</div>
+        <div class="nav-sub">Boojum Golf Association</div>
+      </div>
+      <div><a onclick="gotoHome()" style="color:rgba(255,255,255,0.55); cursor:pointer; font-size:0.84rem; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; padding:1.35rem 0; display:block;">← Main Site</a></div>
+    </nav>
+
+    <div class="inv-hero">
+      <div class="inv-hero-inner">
+        <div class="inv-badge">By Invitation Only</div>
+        <div class="inv-title">The Boojum Invitational</div>
+        <div class="inv-subtitle">A Gathering of the Select Few</div>
+        <p style="color:rgba(255,255,255,0.48); max-width:440px; margin:0 auto; font-style:italic; font-size:1.05rem; line-height:1.8;">Reserved for those who have earned their place at the table — and proved it on the course.</p>
+      </div>
+      <div class="inv-year-watermark">2025</div>
+    </div>
+
+    <section style="background: var(--dark-green); padding: 5rem 1.5rem;">
+      <div class="section-inner">
+        <div class="section-header">
+          <h2 class="section-title" style="color: var(--light-gold);">2025 Invitational — <em style="color:var(--gold);">Final Results</em></h2>
+          <p class="section-sub" style="color:rgba(255,255,255,0.45);">The inaugural champion is crowned.</p>
+          <div class="rule"></div>
+        </div>
+
+        <div class="winner-podium">
+          <div class="podium-trophy">🏆</div>
+          <div class="podium-label">◆ &nbsp; 2025 Champion &nbsp; ◆</div>
+          <div class="podium-name">Kevin Caskey</div>
+          <div class="podium-year">Boojum Invitational &nbsp;·&nbsp; 2025</div>
+        </div>
+
+        <div class="leaderboard">
+          <div class="lb-event-label">◆ &nbsp; Boojum Invitational 2025 — Final Leaderboard &nbsp; ◆</div>
+          <div class="lb-head">
+            <span style="text-align:center">#</span>
+            <span>Player</span>
+            <span style="text-align:right">R1</span>
+            <span style="text-align:right">R2</span>
+            <span style="text-align:right">Total</span>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank gold">1</div>
+            <div class="lb-name">Kevin Caskey <span class="lb-winner-badge">Champion</span></div>
+            <div class="lb-stat">74</div>
+            <div class="lb-stat">76</div>
+            <div class="lb-score">150</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank silver">2</div>
+            <div class="lb-name">Austin Rios</div>
+            <div class="lb-stat">77</div>
+            <div class="lb-stat">76</div>
+            <div class="lb-score">153</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank bronze">3</div>
+            <div class="lb-name">Jared Grant</div>
+            <div class="lb-stat">78</div>
+            <div class="lb-stat">79</div>
+            <div class="lb-score">157</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank">4</div>
+            <div class="lb-name">Will Bryant</div>
+            <div class="lb-stat">82</div>
+            <div class="lb-stat">80</div>
+            <div class="lb-score">162</div>
+          </div>
+        </div>
+        <p style="text-align:center; margin-top:1.25rem; font-size:0.85rem; color:rgba(255,255,255,0.3); font-style:italic;">
+          Round scores are placeholder — update with actual 2025 results.
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-logo">BGA Tour</div>
+      <div class="footer-sub">Boojum Invitational — Members Only</div>
+      <p><a onclick="gotoHome()">← Return to Main Site</a></p>
+    </footer>
+
+  </div><!-- end .inv-content -->
+</div><!-- end #inv-page -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ─────────────────────────────────────────
+  // CHANGE THIS to your real secret password
+  const INVITATIONAL_PASSWORD = 'boojum2025';
+  // Access URL: https://www.boojumgolf.com/?page=invitational
+  // ─────────────────────────────────────────
+
+  // PAGE ROUTING
+  function gotoHome() {
+    document.getElementById('inv-page').style.display = 'none';
+    document.getElementById('main-page').style.display = 'block';
+    window.history.pushState({}, '', '/');
+    window.scrollTo(0, 0);
+  }
+
+  function openInvitational() {
+    document.getElementById('main-page').style.display = 'none';
+    document.getElementById('inv-page').style.display = 'block';
+    window.history.pushState({}, '', '?page=invitational');
+    window.scrollTo(0, 0);
+  }
+
+  function smoothTo(id) {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
+  // Check URL on load for direct invitational link
+  (function() {
+    const p = new URLSearchParams(window.location.search);
+    if (p.get('page') === 'invitational') {
+      document.getElementById('main-page').style.display = 'none';
+      document.getElementById('inv-page').style.display = 'block';
+    }
+  })();
+
+  // PASSWORD GATE
+  function checkPw() {
+    const val = document.getElementById('pw-input').value;
+    if (val === INVITATIONAL_PASSWORD) {
+      document.getElementById('pw-gate').style.display = 'none';
+      document.getElementById('inv-content').classList.add('unlocked');
+    } else {
+      document.getElementById('pw-error').style.display = 'block';
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+    }
+  }
+
+  // RSVP
+  var rsvpChoice = null;
+  function selectRsvp(choice) {
+    rsvpChoice = choice;
+    document.getElementById('opt-yes').className = 'rsvp-option' + (choice === 'yes' ? ' selected-yes' : '');
+    document.getElementById('opt-no').className = 'rsvp-option' + (choice === 'no' ? ' selected-no' : '');
+  }
+
+  function submitRsvp() {
+    var email = document.getElementById('rsvp-email').value.trim();
+    if (!email || !rsvpChoice) {
+      showToast('Please enter your email and select an RSVP option.');
+      return;
+    }
+    // ── TO CONNECT A REAL BACKEND ──
+    // Option 1: Use Formspree — sign up at formspree.io, get a form ID,
+    //           then POST to https://formspree.io/f/YOUR_ID
+    // Option 2: Use Netlify Forms — add netlify attribute to the form element
+    // Option 3: Use Emailjs — send directly to your email address
+    document.getElementById('rsvp-success').style.display = 'block';
+    var btn = document.getElementById('rsvp-btn');
+    btn.disabled = true;
+    btn.textContent = 'RSVP Submitted ✓';
+    showToast(rsvpChoice === 'yes' ? "You're on the tee sheet! See you in July. ⛳" : "Sorry to miss you — hopefully next year!");
+  }
+
+  // TOAST
+  function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, 3500);
+  }
+</script>
+</body>
+</html>
